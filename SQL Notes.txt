@@ -1,0 +1,554 @@
+Session 3:
+
+Primary key -> Uniquely identify each record in the table
+
+CREATE TABLE employee (
+firstname varchar(20) NOT NULL,
+middlename varchar(20),
+lastname varchar(20) NOT NULL,
+age int NOT NULL,
+salary int NOT NULL,
+location varchar(20) NOT NULL DEFAULT 'bangalore'
+);
+
+CREATE TABLE employee (
+id int PRIMARY KEY,
+firstname varchar(20) NOT NULL,
+middlename varchar(20),
+lastname varchar(20) NOT NULL,
+age int NOT NULL,
+salary int NOT NULL,
+location varchar(20) NOT NULL DEFAULT 'bangalore'
+);
+
+CREATE TABLE employee (
+id int ,
+firstname varchar(20) NOT NULL,
+middlename varchar(20),
+lastname varchar(20) NOT NULL,
+age int NOT NULL,
+salary int NOT NULL,
+location varchar(20) NOT NULL DEFAULT 'bangalore',
+PRIMARY KEY(id)
+);
+
+SELECT * FROM employee;
+
+=>For a primary key, NULL is not allowed. Also, repeated values are not allowed.
+
+=>auto-incrementing id -
+CREATE TABLE employee (
+id int AUTO_INCREMENT,
+firstname varchar(20) NOT NULL,
+middlename varchar(20),
+lastname varchar(20) NOT NULL,
+age int NOT NULL,
+salary int NOT NULL,
+location varchar(20) NOT NULL DEFAULT 'bangalore',
+PRIMARY KEY(id)
+);
+
+INSERT INTO employee(id, firstname, middlename, lastname, age, salary, location) VALUES(1, 'Kapil', 'Kumar', 'Sharma', 25, 35000, 'Pune');
+
+
+Unique Key :
+U can have only 1 primary key
+& primary key cannot hold any NULL.
+
+We should use primary key when we have to uniquely identify each record.
+
+Unique key can hold NULL.
+There can be multiple unique keys of which the purpose is to avoid duplications.
+
+CREATE TABLE employee (
+firstname varchar(20) NOT NULL,
+lastname varchar(20) NOT NULL,
+age int NOT NULL,
+PRIMARY KEY(firstname, lastname)
+);
+
+INSERT INTO employee VALUES('Kapil', 'Sharma' , 28);
+-Duplicating this wont work bcz the primary key will be same -> kapil-sharma
+
+CREATE TABLE employee (
+id int UNIQUE KEY,
+firstname varchar(20) NOT NULL,
+lastname varchar(20) NOT NULL,
+age int NOT NULL
+);
+
+======================================================================================================================
+
+Session 4:
+
+
+CREATE TABLE employee (
+id int PRIMARY KEY,
+firstname varchar(20) NOT NULL,
+middlename varchar(20),
+lastname varchar(20) NOT NULL,
+age int NOT NULL,
+salary int NOT NULL,
+location varchar(20) NOT NULL DEFAULT 'bangalore'
+);
+
+INSERT INTO employee(id, firstname, lastname, age, salary) VALUES(1, 'Rajesh', 'Sharma', 25, 10000);
+INSERT INTO employee(id, firstname, lastname, age, salary) VALUES(2, 'Kapil', 'Sharma', 30, 20000);
+INSERT INTO employee(id, firstname, lastname, age, salary) VALUES(3, 'Maneesh', 'Sharma', 32, 30000);
+
+=> SELECT * FROM employee; - Simple select for selecting all records
+=> SELECT firstname,lastname from employee; - Selecting specific columns only
+
+=> ###  Using WHERE clause to filter out results - 
+=> SELECT * from employee WHERE age > 29;
+=> SELECT * from employee WHERE firstname='maneesh'; -> By default it's case-insensitive.
+=> SELECT * from employee WHERE binary firstname='maneesh';  -> binary keyword makes it case-sensitive
+
+=> ### readng AS alias -
+=> SELECT firstname as name, lastname as surname from employee;
+
+---------------------------------------------------------------------------------------------------------------
+
+UPDATE :
+----------
+
+=> UPDATE employee SET lastname='Sinha' WHERE firstname='Maneesh';
+=> UPDATE employee SET location='hyderabad' WHERE firstname='Kapil';
+=> UPDATE employee SET location='hyderabad';  -> Without WHERE clause it updates all the records.
+=> UPDATE employee SET salary=salary+5000;
+
+-> using AND / OR operators :
+
+=> UPDATE employee SET location='delhi' WHERE firstname='maneesh' and lastname='sinha';
+
+-----------------------------------------------------------------------------------------------------------------------
+
+DELETE :
+---------
+
+### Imp Note -> In deletions, Always pull the record first to verify using the SELECT statement
+And, once u r sure, then only run the delete the command.
+
+e.g - Don't directly run the below command. 
+=> DELETE from employee WHERE id=3;
+
+=> 1st run - SELECT * from employee WHERE id=3;
+-- Then only after verification, run the delete command.
+=> DELETE from employee WHERE id=3;
+
+### Be careful, bcz little rush and u write a query like this - DELETE from employee;
+& boom......Everything is deleted.
+
+-----------------------------------------------------------------------------------------------------
+
+ALTER :
+-------
+
+# Structural changes like increasing the varchar(num) limit or adding another field of colums, etc....
+are done using the ALTER command.
+
+# Update deals with actual data manipulation 
+while....
+ALTER deals with the structural manipulation of table. (Schema of table)
+
+=> ALTER table employee ADD column jobtitle varchar(50);
+=> ALTER table employee DROP column jobtitle;
+
+-> MODIFY clause :
+=> ALTER table employee MODIFY column firstname varchar(30);
+
+=> ALTER table employee DROP PRIMARY KEY;
+=> ALTER table employee ADD PRIMARY KEY(id);
+
+-----------------------------------------------------------------------------------------------
+
+DDL vs DML :
+-------------
+
+DDL - Data Definition Language - deals with table structure
+=> CREATE, ALTER, DROP ---> DDL Commands.
+
+DML - Data Manipulation Language - Deals with actual data manipulation
+=> INSERT, UPDATE, DELETE ---> DML Commands
+
+----------------------------------------------------------------------------------------------
+
+TRUNCATE vs DELETE :
+---------------------
+
+=>DELETE from employee;
+=>TRUNCATE from employee; 
+
+both these commands give the same result as the table is vanished.
+
+But...... 
+DELETE is a DML command - Bcz it deletes the actual data one by one record.
+
+On the other hand -
+TRUNCATE is a DDL command - Bcz Truncate internally drops the table & recreates it.
+
+Hence for huge scale application, DELETE is not efficient & Truncate does the same job within no time.
+---------------------------------------------------------------------------------------------------------------
+
+=================================================================================================================
+
+Session 5 :
+===========
+
+Foreign Key Constraint :
+
+=>
+CREATE TABLE students (
+student_id int AUTO_INCREMENT,
+student_fname varchar(30) NOT NULL,
+student_lname varchar(30) NOT NULL,
+student_mname varchar(30),
+student_email varchar(30) NOT NULL,
+student_phone varchar(15) NOT NULL,
+student_alternate_phone varchar(15),
+enrollment_date TIMESTAMP NOT NULL,
+years_of_exp int NOT NULL,
+student_company varchar(30),
+batch_date varchar(30) NOT NULL,
+source_of_joining varchar(30) NOT NULL,
+location varchar(30) NOT NULL,
+PRIMARY KEY (student_id),
+UNIQUE KEY (student_email)
+);
+
+--> auto_increment wala should be the primary key & as we can't have duplicates in email-ids, we assign it as a unique key.
+
+=>
+INSERT into students (
+student_fname, student_lname, student_email, student_phone, years_of_exp, student_company, batch_date, source_of_joining, location
+)
+VALUES (
+'Virat', 'Kohli', 'kohli@gmail.com', '9898989898' , 15, 'Amazon', '15-5-2020' , 'Facebook' , 'Bangalore'
+);
+
+=>
+SELECT student_id, enrollment_date, student_fname, student_lname, student_company, location from students;
+
+CREATE TABLE students (
+student_id int AUTO_INCREMENT,
+student_fname varchar(30) NOT NULL,
+student_lname varchar(30) NOT NULL,
+student_mname varchar(30),
+student_email varchar(30) NOT NULL,
+student_phone varchar(15) NOT NULL,
+student_alternate_phone varchar(15),
+enrollment_date TIMESTAMP NOT NULL,
+selected_course int NOT NULL DEFAULT 1,
+years_of_exp int NOT NULL,
+student_company varchar(30),
+batch_date varchar(30) NOT NULL,
+source_of_joining varchar(30) NOT NULL,
+location varchar(30) NOT NULL,
+PRIMARY KEY (student_id),
+UNIQUE KEY (student_email)
+);
+
+### Checking if the opted course by the user actually exists among our offered courses.
+i.e. If there are courses from 1 to 4; and user selects course number 5 - It should not be allowed.
+That's where Foreign Key Constraint omes into picture.
+
+=>
+CREATE TABLE students (
+student_id int AUTO_INCREMENT,
+student_fname varchar(30) NOT NULL,
+student_lname varchar(30) NOT NULL,
+student_mname varchar(30),
+student_email varchar(30) NOT NULL,
+student_phone varchar(15) NOT NULL,
+student_alternate_phone varchar(15),
+enrollment_date TIMESTAMP NOT NULL,
+selected_course int NOT NULL DEFAULT 1,
+years_of_exp int NOT NULL,
+student_company varchar(30),
+batch_date varchar(30) NOT NULL,
+source_of_joining varchar(30) NOT NULL,
+location varchar(30) NOT NULL,
+PRIMARY KEY (student_id),
+UNIQUE KEY (student_email)
+FOREIGN KEY(selected_course) REFERENCES courses(course_id);
+);
+
+# i.e. the last line - Foreign key - selected_course references to the other table named courses & it's column - course_id;
+
+# Here, courses table will be the parent table bcz we have a child table's dependency inside it. (students table is dependent on courses table)
+
+=> FOREIGN KEY(selected_course) REFERENCES courses(course_id);
+#This command stops invalid course_id selection in students table & if someone tries to select a course which does not belong in the courses(course_id) -----
+----It throws error saying -> Foreign Key Constraint fails.
+
+----------------------------------------------------------------------
+
+Theory - Foreign Key Constraint :
+
+* The foreign key constraint is used to prevent actions that would destroy the links between two tables.
+
+* A foreign key is a field in one table that refers to the primary key in another table.
+
+* selected_course is a foreign key in students table which refers to course_id - A primary key in courses table.
+
+* The table with Foreign key is called the child table,
+  The table with Primary key is called the parent / reference table.
+
+* Constraints like ForeignKeyConstraints, etc are used to limit the type of data that can go into a table.
+* This ensures the accuracy & reliability of the data is maintained.
+* If there is any violation then the action is aborted.
+
+======================================================================================================================
+
+Session 6:
+===========
+
+DISTINCT:
+---------
+
+=> SELECT location from students; - Will give locations from every record. i.e. All repeated values too.
+But....
+=> SELECT DISTINCT location from students; = Will exclude repetitions & will give just a simple list with all the locations shown just once.
+
+=> SELECT DISTINCT student_company from students; - same 
+
+----------------------------------------------------------------------------------------------
+
+ORDER BY:
+----------
+
+=> SELECT * from students ORDER BY years_of_exp;  - By default, ascending order of years of experience.
+
+=> SELECT * from students ORDER BY years_of_exp desc;  - DESC keyword means show descending order.
+
+=> SELECT student_fname from students ORDER BY student_fname; - Alphabetically
+
+
+# 2-level sorting:
+=> SELECT student_fname, years_of_exp from students ORDER BY years_of_exp, student_fname;  ---
+-What this query will do is - Sort everything by the years_of_exp 1st and then wherever there's a clash of same number of years_of_exp.......
+-Only those fields will further be sorted by using student_fname alphabetically.
+
+--------------------------------------------------------------------------------------------------------
+
+LIMIT :
+--------
+
+=> select * from students LIMIT 3;  - Just get first 3 records - Not of much use on its own.
+
+--> But using it with ORDER BY has very useful use-cases.
+i.e. To get 3 candidates with least years of exp.
+
+=> select * from students OREDR BY years_of_exp LIMIT 3;  -> Now this is useful.
+
+=> select * from students OREDR BY years_of_exp DESC LIMIT 3;  -> 3 most experienced bcz of DESC 
+
+# DESC students; -> Is -> describe students
+# & DESC means descending order as well when used inside table. 
+
+---------------------------------------------------------------------
+
+=>This query won't work though
+=> select DISTINCT source_of_joining from students ORDER BY enrollment_date DESC LIMIT 5;
+-> DISTINCT there at start won't work.
+
+-----------------------------------------------------------------------
+
+LIMIT with 2 parameters :
+-------------------------
+
+=> select * from students ORDER BY enrollment_date LIMIT 0,3; 
+-> This means starting from 0(i.e. 1st record), Give 3 records.
+
+--------------------------------------------------------------------------------
+
+LIKE :
+------
+
+LIKE keyword gives us a fuzzy-match, 
+not like the exact match that WHERE clause gives us. It's similar but is used to get fuzzy-matches.
+
+# We use the LIKE keyword instead of equal/other-operators in the condition after the WHERE clause.
+
+=> select * from students WHERE student_fname LIKE '%ra%';
+-> What this means is - The fname can contain 'ra' anywhere in it. % means anything before and after 'ra'
+
+### ->   % is a wildcard character.
+
+ 
+=> select * from students WHERE student_fname LIKE 'ra%';  -> This means the fname must start with 'ra' and then anything afterwards.
+
+
+### ->   _ is another wildcard character. One underscore means exactly one character which can be anything.
+
+=> select * from students WHERE student_fname LIKE '_____';  
+-> As we've provided 5 underscores here, It means return all the fnames with exact length of 5.
+
+==============================================================================================================
+
+Session 7:
+============
+
+Order of execution.
+--------------------
+
+## For that above old issue ->
+DISTINCT & ORDER BY don't work together.
+
+### There is some logical incompatibility. 
+Need to revisit this video again and again to fully understand what's happening behind the scenes.
+
+======================================================================================================================
+
+Session 8:
+============
+
+Aggregate Functions:
+--------------------
+
+COUNT :
+--------
+
+=> select count(*) from students;  
+-> Gives the number of rows present in the table
+ 
+
+=> select count(student_company) from students;  
+-> Gives the count of companies - Including duplicates. So, 3 walmarts will increase the count by 3.
+
+# But to get the count of unique companies, Of course we can use DISTINCT.
+=> select count(DISTINCT student_company) from students.
+-> This will exclude the duplicates.
+
+- How many different locations students are joining from?
+=> select count(DISTINCT location) from students;
+
+
+- How many students joined in the month of february? 
+-We can use regex + %-sign in LIKE keyword to get the output.
+=> select count(*) from students WHERE batch_date like '%-02-%'; 
+
+---------------------------------------------------------------------------------------------
+
+GROUP BY :
+------------
+
+- I need info abt how many students are from Bangalore, how many are from delhi & so on......
+In a nicely grouped tabular form.
+The query for that is ->
+
+=> select location, count(*) from students GROUP BY location;
+
+-> This will output like -
+location  |   count    |
+------------------------
+Delhi     |     5      |
+Mumbai    |     2      |
+Bangalore |     7      |
+
+And so on...............................
+
+# group-by will need more practice.
+Damnnnn.... The advanced concepts of combining group-by are little complicated. Need to spend good amnt of time on it.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+MIN & MAX :
+------------
+
+=> select MIN(years_of_exp) from students;
+- Of course as the name suggests, will give the value of miimum years of exp.
+
+
+=> select MAX(years_of_exp) from students; - Same as the name suggests.
+
+
+- For getting the person with maximum experience - This won;t work -
+=> select MAX(years_of_exp), student_fname from students;
+
+- This one is the correct query to get the person with max exp -
+=> select student_fname from students ORDER BY years_of_exp LIMIT 1;
+
+### Revisit minutes 25-32 again and aain to get the clear idea.
+
+--------------------------------------------------------------------------------------
+
+SUM :
+---------
+
+=> select course_of_joining, SUM(years_of_exp) from students GROUP BY source_of_joining;
+
+Simple as the query suggests.
+
+----------------------------------------------------------------------------------------
+
+AVG :
+------
+
+Very similar to SUM above ->
+Getting the average.
+
+=> select course_of_joining, AVG(years_of_exp) from students GROUP BY source_of_joining;
+
+
+======================================================================================
+
+Session 9:
+-----------
+
+Datatypes and all :
+
+The whole video is pretty much self-explanatory.
+
+-> decimal(3,1) -> means total 3 digits & 1 of them can be after the decimal. 
+like 31.4, 3.8, 55.2, etc. But 3.14 won't be allowed bcz we've said only one digit after the decimal
+
+================================================================================
+
+Session 10:
+============
+
+Logical operators:
+-------------------
+
+=> select * from students WHERE location = 'bangalore';
+-> self-explanatory
+
+=> select * from students WHERE location != 'bangalore';
+-> Opposite of prev result.
+
+
+-> something like includes() from JS. ->
+=> select * from courses WHERE course_name LIKE '%data%';
+-> course name which includes data.
+
+-> Opposite of the above query - Just add NOT keyword ->
+=> select * from courses WHERE course_name NOT LIKE '%data%';
+
+-> AND operator ->
+=> select * from students WHERE  years_of_exp < 8 AND source_of_joining = 'linkedin' AND location = 'bangalore';
+
+
+-> OR operator ->
+=> select * from students WHERE years_of_exp < 8 OR years_of_exp > 12;
+- Self-explanatory.
+
+
+-> BETWEEN operator ->
+=> select * from students WHERE years_of_exp BETWEEN 8 AND 12;
+
+
+CASE statements :
+-----------------
+
+//People working for walmart, flipkart, microsoft will be called product-based & all others service-based.
+
+=>
+select student_id, student_fname, student_lname, student_company,
+CASE
+WHEN student_comapny in ('flipkart', 'walmart', 'microsoft') THEN 'product based'
+ELSE 'service based'
+END as company_type
+FROM students;
+
+==================================================================================================
