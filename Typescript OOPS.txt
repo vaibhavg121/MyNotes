@@ -224,3 +224,119 @@ donald.quack();
 Just like this - The objects created using the child class has access to the properties/methods of parent class.
 
 -------------------------------------------------------------------------------------------------
+
+*If a child doesn't have its own constructor, we can use parent's constructor method. =>
+
+Just like this ==>
+
+class Animal {
+  name:string;
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+class Dog extends Animal {
+  growl() {
+    console.log("Dog child class. A dog can growl, but a duck can't. Grrr...");
+  }
+}
+
+var dog1 = new Dog("Pluto");
+
+console.log("Goofy's dog's name is " + dog1.name);
+
+//As we can see, even though the Dog class has no constructor method which can accept parameters to name our dog as Pluto, what happened here is - the Dog class used the constructor method of Animal class bcz it's it's parent class.
+
+-------------------
+
+Now VImp point --->
+
+If u follow the above protocol & try to access the property of parent into the child where the child has it's own constructor, this will throw an error.
+Have a look at the example - 
+
+===>
+class Animal {
+  name:string;
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+class Dog extends Animal {
+  isGoodBoy:boolean;
+  constructor(isGoodBoy) {
+    this.isGoodBoy = isGoodBoy;
+  }
+
+  growl() {
+    if (this.isGoodBoy) {
+      console.log(name + " doesn't growl, he's a good boy");
+    } else {
+      console.log("Grrrrr....");
+    }
+  }
+}
+
+var dog1 = new Dog("Pluto");
+
+console.log("Goofy's dog's name is " + dog1.name);
+
+//Here the child Dog has it's own constructor & in that case u cannot directly use the parents properties. It throws an error.
+
+That error means --->
+---> We need to bring everything from the parent constructor into the child constructor, before we can actually access it.
+And how to we manage to do that and bring everything from parent constructor to the child construtor ?
+=> By using "super()" keyword
+
+* Now, how it actually works? The code ==>
+
+class Animal {
+  name:string;
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+class Dog extends Animal {
+  isGoodBoy:boolean;
+  constructor(name, isGoodBoy) {
+    super(name);
+    this.isGoodBoy = isGoodBoy;
+  }
+
+  growl() {
+    if (this.isGoodBoy) {
+      console.log(name + " doesn't growl, he's a good boy");
+    } else {
+      console.log("Grrrrr....");
+    }
+  }
+}
+
+var dog1 = new Dog("Pluto", true);
+
+console.log("Goofy's dog's name is " + dog1.name);
+
+# Explanation =>
+Dog wanted to use the name property of its parent-Animal.
+When we used - super(name) - It meant importing the parents name property into the child constructor.
+
+In short, super makes the reference to the parent class possible in case of child with it's own constructor.
+
+# Notes -
+Inheritance is inheriting properties & methods from parent class into the child class.
+
+"extends" keyword means one class inherits from another.
+
+The child class will automatically have all the functionality of its paret class 
+UNLESS - it has its own constructor.
+
+In that case, super() keyword comes into picture.
+Super() needs o have any parameters that the parent class constructor has.
+i.e -> As in above example -> parent constructor had "name" parameter. 
+So, the super syntax became - super(name) 
+
+----------------------------------------------------------------------------------------------------------
+
+
