@@ -1,0 +1,127 @@
+*A class is a blueprint, or recipe for an object. A class defines what every instance of it should contain
+
+Classes may contain attributes (properties), as well as methods (functions), collectively known as members.
+
+When we use the term object, we’re referring to an instance of a class.
+
+*Consider an array, an array is a class. When we create an array, we’re actually creating an instance, or object, of the array class.
+Once we’ve created that object, we have access to the properties and functions that TypeScript has declared inside the array class. Like like array.length or array.splice().
+
+
+*Creating a class :-
+To create a class we use the class keyword, followed by a unique name and a code block.
+=>
+class ClassName {
+  //Properties & Methods
+}
+
+i.e. =>
+e.g: -
+=>
+class Employee {
+  name: "John";
+  walk() {
+    console.log("Walking......");
+  }
+}
+
+
+* Instantiating an object of a class :-
+var obj_name = new ClassName();
+
+i.e. => var employee1 = new Employee();
+
+In the example above we create a new object of the Employee class called employee1. The variable can now be used to access the properties and methods of the class.
+
+
+*Accessing properties & methods of a class :-
+syntax =>
+object_name.property;
+object_name.method();
+
+i.e. =>
+employee1.walk();
+
+
+*Class Expressions :-
+
+var expression_name = class ClassName {
+  // class body
+}
+
+This is how we declare a class in an expression
+
+
+=>
+var Person = class {
+  // attributes
+  name = "Unknown";
+
+  // methods
+  walk() {
+    console.log("Walking...");
+  }
+
+}
+
+new Person().walk();
+ OR
+var p1 = new Person();
+p1.walk();
+
+---> In above example,
+We can access a class expression by either instantiating it directly with the new keyword, or by assigning it to a variable (thereby creating an object).
+
+* Do not forget to add parantheses () behind the expression name.
+* Parantheses are used to CONSTRUCT an Object, if there's a constructor present in the declaration.
+
+# Class COnstructor method :-
+
+=>Empty class with just property names =>
+class Person {
+  firstName;
+  lastName;
+}
+
+=>Then, define the constructor method with the keyword - constructor() =>
+
+class Person {
+  firstName;
+  lastName;
+
+  constructor() {
+    //Some code
+  }
+}
+
+==> Then add the parameters we want to initialize the parameter list & assign them to properties.
+=>
+class Person {
+  firstName;
+  lastName;
+
+  constructor(fn:string, ln:string) {
+    this.firstName = fn;
+    this.lastName = ln;
+  }
+}
+
+==> Now all of this into an example as given below :---
+
+class Person {
+
+  firstName;
+  lastName;
+
+  constructor(fn:string, ln:string) {
+
+    this.firstName = fn;
+    this.lastName = ln;
+  }
+}
+
+var p1 = new Person("John", "Doe");
+
+console.log(p1);
+
+===> What we did here is - Instantiated an object p1 from the class Person.
