@@ -339,4 +339,188 @@ So, the super syntax became - super(name)
 
 ----------------------------------------------------------------------------------------------------------
 
+Composition -
 
+* Composition is a type of relationship between classes where one class contains another instead of inheriting from another.
+
+Sometimes composition is favoured above Inheritance bcz it’s more flexible and allows us to design loosely coupled applications.
+
+* Where does composition come into picture?
+=> When the child class is heavily dependant on its parent where its dependent on a lot of inherited properties, 
+If we change something in the parent class, it might totally break the functionality of the children.
+
+That's why the solution is Composition.
+
+Instead of creating a child class that inherits functionality from a parent class, we create stand-alone classes that contain other classes.
+Simply put, "We create an object instance of a class inside another class."
+
+* Understanding with example ===>
+
+class Animal {
+
+  eat() {
+    console.log("Eating...");
+  }
+
+  walk() {
+    console.log("Walking...");
+  }
+}
+
+class Dog extends Animal {}
+class Cat extends Animal {}
+
+
+--> here, we can create instances of Dog & Cat from Animal.
+But if we want to create an instance of lets say - Fish, then a problem arises.
+
+We dont wanna inherit the walk() method from Animal but we do want the eat() method.
+
+This cannot be solved by just Inheritance,
+bcz => class Fish extends Animal {}
+will inherit the walk() method as well.
+
+So, to solve this issue -> the solution is implementing Composition.
+
+Now carefully observe the following piece of code ===>  Keeping in mind the reference to above Dog, Fish situation
+
+===>
+
+class Animal {
+
+  eat() {
+    console.log("Eating...");
+  }
+}
+
+class Walkable {
+
+  walk() {
+    console.log("Walking...");
+  }
+}
+
+class Swimmable {
+
+  swim() {
+    console.log("Swimming...");
+  }
+}
+
+class Dog {
+
+  animal;
+  walkable;
+  swimmable;
+
+  constructor() {
+    this.animal = new Animal();
+    this.walkable = new Walkable();
+    this.swimmable = new Swimmable();
+  }
+}
+
+class Fish {
+
+  animal;
+  swimmable;
+
+  constructor() {
+    this.animal = new Animal();
+    this.swimmable = new Swimmable();
+  }
+}
+
+
+--->
+
+What we did here, is creating separate classes for each of their characteristics 
+and the.....
+creating object instances of these classes inside another classes.
+
+This provides us the flexibility 
+&
+we can make Dogs eatable, walkable & Swimmable
+and Fish as just eatable & Swimmable.
+
+
+have a look at another more thorough example to further clear the concept ->
+
+===>
+class Walkable {
+
+  walk() {
+    console.log("Walking...");
+  }
+}
+
+class Swimmable {
+
+  swim() {
+    console.log("Swimming...");
+  }
+}
+
+class Flyable {
+
+  fly() {
+    console.log("Flying...");
+  }
+}
+
+class Fish {
+
+  swimmable;
+
+  constructor() {
+    this.swimmable = new Swimmable();
+  }
+}
+
+class Bird {
+
+  walkable;
+  swimmable;
+  flyable;
+
+  constructor() {
+    this.walkable = new Walkable();
+    this.swimmable = new Swimmable();
+    this.flyable = new Flyable();
+  }
+}
+
+console.log("Nemo the fish's activities:");
+var nemo = new Fish();
+nemo.swimmable.swim();
+
+console.log("Tweety the bird's activities:");
+var tweety = new Bird();
+tweety.walkable.walk();
+tweety.swimmable.swim();
+tweety.flyable.fly();
+
+----------------------------------------
+
+Inheritance vs Composition :-
+
+*Composition is an alternative to Inheritance.
+
+Adv. of Inheritance - 
+Reusable code & easy to understand.
+
+Disadv. of Ineritance - 
+Tighlty coupled & fragile & can be over abused.
+
+Adv. of Composition - 
+Flexibility & loosely coupled.
+
+Disadv. of Composition - 
+Little complicated to implement at start.
+
+
+# Notes - 
+* Composition us instantiating and accesssing a class inside another class (instead of inheriting)
+* Evey inheritance relationship can be converted to Composition.
+
+----------------------------------------------------------------------------------------------------------
