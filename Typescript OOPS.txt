@@ -125,3 +125,102 @@ var p1 = new Person("John", "Doe");
 console.log(p1);
 
 ===> What we did here is - Instantiated an object p1 from the class Person.
+
+--------------------------------------------------------------------------------------------------
+
+Typescript objects creation without classes (Direct):-
+
+*Object Literals :-
+Object literal means literally directly creating objects: -
+
+e.g =>
+var person = {
+  firstName: "John",
+  lastName: "Doe",
+  age: 20
+}
+
+console.log("Name: " + person.firstName + " " + person.lastName);
+console.log("Age: " + person.age);
+Here, we use the dot notation to access properties
+
+
+*Instantiating a new object with constructor method (Or a constructor function) :-
+=>
+Syntax =>
+function constructor_name(property1, property2, ...) {
+  this.property1 = property1;
+  this.some_property_name = property2;
+}
+
+===> Now we create a new instance like this ===> Using "new" keyword
+=>
+var object_name = new constructor_name(argument1, argument2);
+
+
+*Notes - 
+No need to always create classes to be able to create objects.
+We can directly create them by either creating object-literals or with a constructor method.
+
+this keyword in a constructor method refers to the calling object, the object that will be created from the constructor.
+
+--------------------------------------------------------------------------------------------------------
+
+* Inheritance :-
+
+The main class is known as parent or super class.
+The class that inherits properties from parent is called child class or sub class.
+
+* How to create a child class ?
+=>
+parent --->
+class ParentClass {
+  //Some code
+}
+
+child --->
+class ChildClass extends ParentClass {
+  //Some code
+}
+
+===> Example =>
+
+// This is parent class 
+class Animal {
+  move() {
+    console.log("Animal parent class. Move...");
+  }
+}
+
+//Child class 
+class Dog extends Animal {
+  growl() {
+    console.log("Dog child class. A dog can growl, but a duck can't. Grrr...");
+  }
+}
+
+# As this Dog is a child class of Animal - It has access to it's own method growl() (That's obvious)
+But- It also has access to the move() method of Animal class.
+
+i.e. ---> If we instantiate an object using Dog class -> We will have access to both the growl() as well as move() methods.
+
+//Another child class
+class Duck extends Animal {
+  quack() {
+    console.log("Duck Child class. A duck can quack, but a dog can't. Quack...");
+  }
+}
+
+*Now let's instantiate objects from both of these classes -
+var goofy = new Dog();
+var donald = new Duck();
+
+goofy.move();
+goofy.growl();
+
+donald.move();
+donald.quack();
+
+Just like this - The objects created using the child class has access to the properties/methods of parent class.
+
+-------------------------------------------------------------------------------------------------
