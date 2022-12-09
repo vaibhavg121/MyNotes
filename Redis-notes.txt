@@ -1,1 +1,95 @@
 
+Redis Notes:-
+
+*In memory data structure store.
+*Used as Nosql Database
+*Distributed Cache
+*Message broker
+
+*Unlike any other nosql databases too.
+*Values stored simply as key-value pairs. 
+
+*Redis is kind of like a one huge JSON object which has a lot of key-value pairs inside of it.
+*Bcz it runs on RAm, it's super fast & efficient
+
+*It is mostly used on top on any traditional database, like mysql or mongodb, etc.
+So, when u have a very long & slow query OR u have data that u need to access all the time & doesn't change often,
+U store this data in Redis on top of it already being in ur traditional database behind.
+
+Thus, when in future u need this data, u check inside redis first, and if its already in redis, u get it from there to save computation time and avoid expensive database calls too.
+
+*It's ,primarily used for caching, 
+i.e things u use more often or things that need a lot of time to compute.
+That way, u get them super quick when u need these values again in future.
+
+data structures supported =>
+string, hashes, list, sets, bitmaps, hyperloglog, geospatialindexes
+
+* Starting redis server
+=> redis-server (In one ubuntu window)
+
+* Opening redis-cli
+=> redis-cli (In another ubuntu window)
+
+*Running redis server as a service in the background 
+=> sudo service redis-server start
+
+*Stopping the above service
+=> sudo service redis-server stop
+
+*Restarting the service while its ongoing
+=> sudo service redis-server restart
+
+================================================================================================
+
+Once we enter redis-cli, we can run all the redis commands
+
+* setting string in key-value format 
+==> set name Vaibhav
+=> (set key value)
+
+* getting that value
+==> get name
+-> outputs - "Vaibhav"
+
+* deleting a key name
+==> del name
+(Now if u "get name" it'll be nil)
+
+* checking if a key exists in the database 
+==> exists name
+(if exists - it returns (integer)1 else it returns (integer)0)
+
+* getting all the keys present in db
+==> keys *
+(returns all keys present)
+
+* erasing everything from the database
+=> flushall
+(if u run "keys *" after "flushall" u'll get nothing)
+
+* clearing the redis-cli
+==> clear
+
+--------------------------------------------------------------------------------------
+
+* ttl -> "time to live"
+* By default if u dont define ttl, it'll be -1, which means no expiration time.
+
+* checking ttl
+==> ttl name
+(ttl keyName - will return -1 if not specifically defined)
+
+* setting expiration time to a key (Already existing key)
+=> expire name 10
+(expire key timeInSeconds - Now kay-name will expire in 10 seconds & we can track it using "ttl name")
+
+* setting an expiration time to a key while setting the key for the 1st time
+=> setex name 10 vaibhav
+(setex keyName expirationInSeconds value)
+
+
+
+
+
+
