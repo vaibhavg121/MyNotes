@@ -1,4 +1,3 @@
-
 Redis Notes:-
 
 *In memory data structure store.
@@ -81,15 +80,85 @@ Once we enter redis-cli, we can run all the redis commands
 (ttl keyName - will return -1 if not specifically defined)
 
 * setting expiration time to a key (Already existing key)
-=> expire name 10
+==> expire name 10
 (expire key timeInSeconds - Now kay-name will expire in 10 seconds & we can track it using "ttl name")
 
 * setting an expiration time to a key while setting the key for the 1st time
-=> setex name 10 vaibhav
+==> setex name 10 vaibhav
 (setex keyName expirationInSeconds value)
 
+-------------------------------------------------------------------------------------
 
+*lists in redis =>
 
+* creating a list(array) & adding item/items to a it
+==> lpush animals dog cat lion
+(lpush listname item/items)
 
+* getting all the items of a list
+==> lrange animals 0 -1
+(means get all animals from index 0 to -1(means till the end))
 
+*lpush - means -> left push -> push on the left side of list
+*we can do rpush too to push items on the right end of the list
+==> rpush animals tiger
+(Now if we run "lrange animals 0 -1" -> we'll get the list - lion,cat,dog,tiger)
+(i.e. tiger will be added to the right end & other 3 items will be in that sequence bcz of previous lpush)
 
+* popping items out of the list
+* again both lpop & rpop both work for their respective left & right popping.
+* "lpop animals" will pop the leftmost item out of the list and will also return it.
+* same goes for rpop -> rpop will pop out the rightmost item and return it
+
+-----------------------------------------------------------------------------------------------
+
+* sets in redis =>
+
+* these sets are like the sets we know in python - Unique values and no particular sequence/indexes
+
+* creating a set and adding items to it
+==> sadd hobbies "watching movies"
+(sAdd setName item)
+(Imp Note -> For multiworded strings with spaces, "USE DOUBLE QUOTES LIKE THIS")
+
+* getting all the set items
+==> smembers hobbies
+(sMembers setName)
+
+* removing an item from a set
+==> srem hobbies golf
+(sRem setName itemNameToRemove)
+
+-------------------------------------------------------------------------------------
+
+* hashes (key-value pairs) in redis =>
+*u can only put one layer of key-value pairs inside this already exisiting key-value structure of redis
+
+* setting a simple a key-value pair (person:- name: vaibhav)
+==> hset person name vaibhav
+(hSet nameOfHash keyOfHash valueOfHash)
+
+* getting full key-value values
+==> hgetall person
+(hGetAll nameOfHash)
+-> returns - name vaibhav
+
+* getting value of a key inside person
+==> hget person name
+(hGet nameOfHash nameOfKey)
+-> returns - vaibhav
+
+* setting another key-value pair for person
+==> hset person city pune
+(same as 1st command above)
+
+* deleting this second set key-value pair
+==> hdel person city
+(hDel nameOfHash keyToDelete)
+
+* checking which key-value pairs exist inside this hash
+==> hexists person city
+(hExists nameOfHash keyToCheck)
+-> will return 0 i.e false bcz we deleted it
+
+----------------------------------------------------------------------------------
